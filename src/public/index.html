@@ -7,8 +7,32 @@
 </head>
 <body>
     <div>
-        <input type="text" id="message" placeholder="Enter message">
-        <button id="send">Send</button>
+        <input type="text" id="message" placeholder="enter messages ">
+        <div id="allMessages"></div>
+        <br>
+        <button id="send">send message</button>
     </div>
 </body>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    
+        const socket = io('http://localhost:4000');
+        const btn = document.getElementById('send');
+        const messageInput = document.getElementById('message');
+        const allMessages = document.getElementById('allMessages');
+
+        socket.on('message', (message) => {
+            const messageElement = document.createElement('p');
+            messageElement.innerText = message;
+            allMessages.appendChild(messageElement);
+        });
+
+        btn.addEventListener('click', () => {
+            // kya emit krna hai, or value kya ha
+            socket.emit('message', messageInput.value);
+        });
+
+  </script>
 </html>
